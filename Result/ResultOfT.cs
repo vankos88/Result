@@ -17,7 +17,7 @@ namespace Result
 
             if (isSuccess)
                 SuccessMessage = message;
-            else ErrorMessage = message;
+            else FailMessage = message;
 
             Data = data;
         }
@@ -44,16 +44,22 @@ namespace Result
         {
         }
 
-        #endregion
-
-        public static Result<T> Success(T data)
+        public Result(Result result)
         {
-            return new Result<T>(true, data);
+
         }
 
-        public static Result<T> Success(string message, T data)
-        {
-            return new Result<T>(true, message, data);
-        }
+
+    #endregion
+
+        public static Result<T> Success() => new Result<T>(true);
+
+        public static Result<T> Success(T data) => new Result<T>(true, data);
+
+        public static Result<T> Success(string message) => new Result<T>(true, message);
+
+        public static Result<T> Success(string message, T data) => new Result<T>(true, message, data);
+
+        public static Result<T> Fail(string message, T data) => new Result<T>(false, message, data);
     }
 }

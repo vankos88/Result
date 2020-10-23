@@ -10,8 +10,8 @@ namespace Result
 
         public bool HasSuccessMessage => !string.IsNullOrEmpty(SuccessMessage);
         public string SuccessMessage { get; protected set; }
-        public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
-        public string ErrorMessage { get; protected set; }
+        public bool HasFailMessage => !string.IsNullOrEmpty(FailMessage);
+        public string FailMessage { get; protected set; }
         public bool HasException => Exception != null;
 
         #region Constructors
@@ -30,7 +30,7 @@ namespace Result
             IsSuccess = isSuccess;
             if (isSuccess)
                 SuccessMessage = message;
-            else ErrorMessage = message;
+            else FailMessage = message;
         }
 
         public Result(Exception ex)
@@ -43,44 +43,23 @@ namespace Result
         {
             IsSuccess = false;
             Exception = ex;
-            ErrorMessage = message;
+            FailMessage = message;
         }
 
         #endregion
 
-        public static implicit operator bool(Result result)
-        {
-            return result.IsSuccess;
-        }
+        public static implicit operator bool(Result result) => result.IsSuccess;
 
-        public static Result Success()
-        {
-            return new Result(true);
-        }
+        public static Result Success() => new Result(true);
 
-        public static Result Success(string message)
-        {
-            return new Result(true, message);
-        }
+        public static Result Success(string message) => new Result(true, message);
 
-        public static Result Error()
-        {
-            return new Result(false);
-        }
+        public static Result Fail() => new Result(false);
 
-        public static Result Error(string message)
-        {
-            return new Result(false, message);
-        }
+        public static Result Fail(string message) => new Result(false, message);
 
-        public static Result Error(Exception ex)
-        {
-            return new Result(ex);
-        }
+        public static Result Fail(Exception ex) => new Result(ex);
 
-        public static Result Error(Exception ex, string message)
-        {
-            return new Result(ex, message);
-        }
+        public static Result Fail(Exception ex, string message) => new Result(ex, message);
     }
 }
